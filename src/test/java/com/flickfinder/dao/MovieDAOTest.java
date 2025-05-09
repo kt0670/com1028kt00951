@@ -11,6 +11,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.flickfinder.model.Movie;
+import com.flickfinder.model.Movie.MovieRating;
+import com.flickfinder.model.Person;
 import com.flickfinder.util.Database;
 import com.flickfinder.util.Seeder;
 
@@ -58,8 +60,8 @@ class MovieDAOTest {
 	@Test
 	void testGetAllMovies() {
 		try {
-			List<Movie> movies = movieDAO.getAllMovies();
-			assertEquals(5, movies.size());
+			List<Movie> movies = movieDAO.getAllMovies(3);
+			assertEquals(3, movies.size());
 		} catch (SQLException e) {
 			fail("SQLException thrown");
 			e.printStackTrace();
@@ -99,6 +101,32 @@ class MovieDAOTest {
 
 	}
 
+	
+	@Test
+	void testGetPeopleByMovieId() {
+		try {
+			List<Person> stars = movieDAO.getPeopleByMovieId(1);
+			assertEquals(2, stars.size());
+		} catch (SQLException e) {
+			fail("SQLException thrown");
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	void testGetMoviesByYearAndRating() {
+		try {
+			List<MovieRating> movieRatings = movieDAO.getMoviesByYearAndRating(2008, 3, 1000000);
+			System.out.println("Movies returned: " + movieRatings);
+			assertEquals(1, movieRatings.size());
+		} catch (SQLException e) {
+			System.err.println("SQLException encountered: " + e.getMessage());
+			fail("SQLException thrown");
+			e.printStackTrace();
+		}
+	}
+	
+	
 	@AfterEach
 	void tearDown() {
 		seeder.closeConnection();

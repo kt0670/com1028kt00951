@@ -86,5 +86,36 @@ public class Movie {
 	public String toString() {
 		return "Movie [id=" + id + ", title=" + title + ", year=" + year + "]";
 	}
+	
+	public static class MovieRating extends Movie {
+		private float rating;
+		private int votes;
+		
+		public MovieRating(int id, String title, int year, float rating, int votes) {
+			super(id, title, year);
+			this.rating = rating;
+			this.votes = votes;
+		}
+		
+		public void setRating(int r) {
+			rating = r;
+		}
+		
+		public float getRating() {
+			return rating;
+		}
+		
+		public void setVotes(int v) {
+			votes = v;
+		}
+		
+		public int getVotes() {
+			return votes;
+		}
+		
+		public String toString() {
+			return super.toString() + ", Rating: " + rating + ", Votes: " + votes;
+		}
+	}
 
 }

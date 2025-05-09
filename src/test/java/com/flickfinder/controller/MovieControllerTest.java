@@ -56,7 +56,7 @@ class MovieControllerTest {
 	void testGetAllMovies() {
 		movieController.getAllMovies(ctx);
 		try {
-			verify(movieDAO).getAllMovies();
+			verify(movieDAO).getAllMovies(3);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -70,7 +70,7 @@ class MovieControllerTest {
 	 */
 	@Test
 	void testThrows500ExceptionWhenGetAllDatabaseError() throws SQLException {
-		when(movieDAO.getAllMovies()).thenThrow(new SQLException());
+		when(movieDAO.getAllMovies(3)).thenThrow(new SQLException());
 		movieController.getAllMovies(ctx);
 		verify(ctx).status(500);
 	}
@@ -120,5 +120,29 @@ class MovieControllerTest {
 		movieController.getMovieById(ctx);
 		verify(ctx).status(404);
 	}
-
+	
+	@Test
+	void testGetPeopleByMovieId() {
+		when(ctx.pathParam("id")).thenReturn("1");
+		movieController.getPeopleByMovieId(ctx);
+		try {
+			verify(movieDAO).getPeopleByMovieId(1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	void testGetRatingsByYear() {
+		when(ctx.pathParam("year")).thenReturn("2008");
+		movieController.getRatingsByYear(ctx);
+		try {
+			verify(movieDAO).getMoviesByYearAndRating(2008, 3, 1000000);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 }
+	
+
